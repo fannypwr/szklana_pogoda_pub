@@ -35,7 +35,7 @@
                         var series_obj = {'data': [], 'name': address};
                         var data_arr = series_obj['data'];
                         for(i=0; i < series_raw[0]['data'].length; i++){
-                            data_arr.push([Date.UTC(series_raw[0]['data'][i][0][0], series_raw[0]['data'][i][0][1], series_raw[0]['data'][i][0][2]).valueOf(), series_raw[0]['data'][i][1]]);
+                            data_arr.push([Date.UTC(series_raw[0]['data'][i][0][0], series_raw[0]['data'][i][0][1] - 1, series_raw[0]['data'][i][0][2]).valueOf(), series_raw[0]['data'][i][1]]);
                         }
                         series.push(series_obj);
                         var yAxis = {{ yAxis|safe }}
