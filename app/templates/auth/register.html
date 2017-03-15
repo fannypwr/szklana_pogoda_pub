@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block content %}
+    {{ super() }}
+{% import 'bootstrap/wtf.html' as wtf %}
+{% if form %}
+<div class="container">
+    <div class="input-group">
+    {{ wtf.quick_form(form) }}
+    </div>
+</div>
+{% endif %}
+{% endblock %}

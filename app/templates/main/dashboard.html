@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% import 'bootstrap/wtf.html' as wtf %}
+{% block head %}
+    {{ super() }}
+    <script src="static/js/jquery11_1.min.js" type="text/javascript"></script>
+{% endblock %}
+
+{% block content %}
+
+    {{ super() }}
+    <div class="container">
+        <h1>Dashboard</h1>
+        <nav class="nav nav-pills">
+                <a class="nav-link active" href="{{ url_for('auth.logout') }}">Log out</a>
+        </nav>
+    </div>
+    {% if form %}
+        <div class="container">
+            <div class="input-group">
+            {{ wtf.quick_form(form) }}
+            </div>
+        </div>
+    {% endif %}
+    {% if title %}
+        <div>
+            <div id="container" class="chart" style="height: auto; width: 500px"></div>
+        </div>
+
+        {% block scripts %}
+            <script>
+                        var series_raw = {{ series_py|safe }};
+                        var xAxis = {{ xAxis|safe }};
+                        var series = [];
+                        var address = series_raw[0]['name'] + ' - temperature';
+                        var series_obj = {'data': [], 'name': address};
+                        var data_arr = series_obj['data'];
+                        for(i=0; i < series_raw[0]['data'].length; i++){
+                            data_arr.push([Date.UTC(series_raw[0]['data'][i][0][0], series_raw[0]['data'][i][0][1], series_raw[0]['data'][i][0][2]).valueOf(), series_raw[0]['data'][i][1]]);
+                        }
+                        series.push(series_obj);
+                        var yAxis = {{ yAxis|safe }}
+                        var chart = {{ chart|safe }}
+                        var title = {{ title|safe }}
+
+                        var json = {};
+                        json.xAxis = xAxis;
+                        json.yAxis = yAxis;
+                        json.series = series;
+                        json.chart = chart;
+                        json.title = title;
+            </script>
+            <script src="static/js/highcharts.js"></script>
+            <script src="static/js/chart.js"></script>
+        {% endblock %}
+    {% endif %}
+
+{% endblock %}

@@ -1,0 +1,7 @@
+{% extends 'auth/register.html' %}
+{% block content %}
+    {{ super() }}
+    <div class="container">
+        <a href="{{ url_for('auth.register') }}">Register if you don't have an account</a>
+    </div>
+{% endblock %}
