@@ -26,9 +26,12 @@
         Temperature, from_json, date_regex)
 
         - Place
-        *api/places - list of all places (GET) or create new place (POST)
+        *api/places/ - list of all places (GET) or create new place (POST)
         *api/places/place_id - info regarding a given place (GET)
-        - User - not implemented
+        - User
+        *api/users/ (GET) all users
+        *api/users/user_id (GET) a given user
+        *api/users/ (POST) - adding a new user
         - Role - not implemented
 
 

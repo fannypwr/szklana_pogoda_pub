@@ -5,6 +5,7 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from app import db, login_manager
 
 FORMAT_PROBLEM = 'Problem with date format'
+PROVIDE_EMAIL_PASS = 'Email address and password are obligatory'
 PROVIDE_NAME = 'Name must be provided'
 VALUE_TEMP = 'Wrong or incomplete data have been provided'
 
@@ -84,6 +85,19 @@ class User(UserMixin, db.Model):
             active=self.active
         )
         return json_format
+
+    @staticmethod
+    def from_json(json_user):
+        email = json_user.get('email')
+        hashed_pass = generate_password_hash(json_user.get('password'))
+        if not (email and hashed_pass):
+            raise ValueError(PROVIDE_EMAIL_PASS)
+        user = User()
+        user.email = email
+        user.hashed_pass = hashed_pass
+        user.role_id = json_user.get('role_id')
+        user.active = json_user.get('active')
+        return user
 
 
 class Role(db.Model):

@@ -1,5 +1,6 @@
 from flask import jsonify, request
 
+from app import db
 from app.api import api as api_bl
 from app.models import User, load_user
 
@@ -18,3 +19,13 @@ def get_user(user_id):
     else:
         return jsonify({})
 
+
+@api_bl.route('/users/', methods=['POST'])
+def add_user():
+    try:
+        user = User.from_json(request.json)
+        db.session.add(user)
+        db.session.commit()
+        return jsonify({'success': True})
+    except Exception as ex:
+        return jsonify({'error': 'Wrong data provided or db error: {} {}'.format(ex, request.json)})
